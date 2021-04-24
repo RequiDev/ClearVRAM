@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using Harmony;
 using MelonLoader;
 using UnityEngine;
 using UIExpansionKit.API;
@@ -50,9 +47,11 @@ namespace ClearVRAM
                     abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0.Remove(key);
                     abdm.field_Private_Dictionary_2_String_Object_0.Remove(key);
                 }
+                dict.Clear();
 
-                Resources.UnloadUnusedAssets();
                 GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
+                Il2CppSystem.GC.Collect(GC.MaxGeneration, Il2CppSystem.GCCollectionMode.Forced, true, true);
+                Resources.UnloadUnusedAssets();
             });
         }
     }
