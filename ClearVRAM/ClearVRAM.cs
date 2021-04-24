@@ -14,22 +14,13 @@ namespace ClearVRAM
         public const string Name = "ClearVRAM";
         public const string Author = "Requi";
         public const string Company = "RequiDev";
-        public const string Version = "1.0.1";
+        public const string Version = "1.0.2";
         public const string DownloadLink = "https://github.com/RequiDev/ClearVRAM";
     }
 
     public class ClearVRAM : MelonMod
     {
         public override void OnApplicationStart()
-        {
-            if (MelonHandler.Mods.Any(it => it.Info.Name == "UI Expansion Kit" && !it.Info.Version.StartsWith("0.1.")))
-            {
-                AddUiButton();
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void AddUiButton()
         {
             ExpansionKitApi.GetExpandedMenu(ExpandedMenu.QuickMenu).AddSimpleButton("Clear VRAM", () =>
             {
