@@ -6,6 +6,7 @@ using MelonLoader;
 using UnityEngine;
 using UIExpansionKit.API;
 using VRC;
+using Object = UnityEngine.Object;
 
 namespace ClearVRAM
 {
@@ -14,7 +15,7 @@ namespace ClearVRAM
         public const string Name = "ClearVRAM";
         public const string Author = "Requi";
         public const string Company = "RequiDev";
-        public const string Version = "1.0.2";
+        public const string Version = "1.0.3";
         public const string DownloadLink = "https://github.com/RequiDev/ClearVRAM";
     }
 
@@ -35,14 +36,13 @@ namespace ClearVRAM
 
                 foreach (var key in dict.Keys.Where(key => !abdm.field_Private_Dictionary_2_String_Object_0[key].name.Contains("vrcw") && !currentAvatars.Contains(key)))
                 {
+                    var avatarObj = abdm.field_Private_Dictionary_2_String_Object_0[key];
                     abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0.Remove(key);
                     abdm.field_Private_Dictionary_2_String_Object_0.Remove(key);
+                    Object.Destroy(avatarObj);
+                    Resources.UnloadAsset(avatarObj);
                 }
                 dict.Clear();
-
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
-                Il2CppSystem.GC.Collect(GC.MaxGeneration, Il2CppSystem.GCCollectionMode.Forced, true, true);
-                Resources.UnloadUnusedAssets();
             });
         }
     }
