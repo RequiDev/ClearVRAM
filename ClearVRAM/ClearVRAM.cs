@@ -15,7 +15,7 @@ namespace ClearVRAM
         public const string Name = "ClearVRAM";
         public const string Author = "Requi";
         public const string Company = "RequiDev";
-        public const string Version = "1.0.3";
+        public const string Version = "1.0.4";
         public const string DownloadLink = "https://github.com/RequiDev/ClearVRAM";
     }
 
@@ -27,22 +27,29 @@ namespace ClearVRAM
             {
                 var currentAvatars = (from player in PlayerManager.prop_PlayerManager_0.prop_ArrayOf_Player_0 where player != null select player.prop_ApiAvatar_0 into apiAvatar where apiAvatar != null select apiAvatar.assetUrl).ToList();
 
-                var dict = new Dictionary<string, Il2CppSystem.Object>();
+                var dict = new Dictionary<string, AssetBundleDownload>();
                 var abdm = AssetBundleDownloadManager.prop_AssetBundleDownloadManager_0;
-                foreach (var key in abdm.field_Private_Dictionary_2_String_Object_0.Keys)
+                foreach (var key in abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0.Keys)
                 {
-                    dict.Add(key, abdm.field_Private_Dictionary_2_String_Object_0[key]);
+                    dict.Add(key, abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0[key]);
                 }
 
-                foreach (var key in dict.Keys.Where(key => !abdm.field_Private_Dictionary_2_String_Object_0[key].name.Contains("vrcw") && !currentAvatars.Contains(key)))
+                foreach (var key in dict.Keys)
                 {
-                    var avatarObj = abdm.field_Private_Dictionary_2_String_Object_0[key];
-                    abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0.Remove(key);
-                    abdm.field_Private_Dictionary_2_String_Object_0.Remove(key);
-                    Object.Destroy(avatarObj);
-                    Resources.UnloadAsset(avatarObj);
+                    var assetBundleDownload = abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0[key];
+                    if (!abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0[key].field_Public_String_0.Contains("wrld_") && !currentAvatars.Contains(key))
+                    {
+                        abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0.Remove(key);
+                        if (assetBundleDownload.field_Private_GameObject_0 != null)
+                        {
+                            Object.DestroyImmediate(assetBundleDownload.field_Private_GameObject_0, true);
+                        }
+                    }
                 }
+
                 dict.Clear();
+
+                Resources.UnloadUnusedAssets();
             });
         }
     }
