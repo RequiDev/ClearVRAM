@@ -15,7 +15,7 @@ namespace ClearVRAM
         public const string Name = "ClearVRAM";
         public const string Author = "Requi";
         public const string Company = "RequiDev";
-        public const string Version = "1.0.4";
+        public const string Version = "1.0.5";
         public const string DownloadLink = "https://github.com/RequiDev/ClearVRAM";
     }
 
@@ -37,7 +37,8 @@ namespace ClearVRAM
                 foreach (var key in dict.Keys)
                 {
                     var assetBundleDownload = abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0[key];
-                    if (!abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0[key].field_Public_String_0.Contains("wrld_") && !currentAvatars.Contains(key))
+
+                    if (!assetBundleDownload.field_Private_String_0.Contains("wrld_") && !currentAvatars.Contains(key))
                     {
                         abdm.field_Private_Dictionary_2_String_AssetBundleDownload_0.Remove(key);
                         if (assetBundleDownload.field_Private_GameObject_0 != null)
